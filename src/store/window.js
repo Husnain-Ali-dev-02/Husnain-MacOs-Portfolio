@@ -10,47 +10,56 @@ const useWindowStore = create(
     openWindow: (windowKey, data = null) =>
       set((state) => {
         const win = state.windows[windowKey];
-        if (!win) return;
+        if (!win) return state;
 
         win.isOpen = true;
         win.zIndex = state.nextZIndex++;
-        win.data = data ?? win.data;
+        if (data) win.data = data;
+
+        return state;
       }),
 
     closeWindow: (windowKey) =>
       set((state) => {
         const win = state.windows[windowKey];
-        if (!win) return;
+        if (!win) return state;
 
         win.isOpen = false;
         win.zIndex = INITIAL_Z_INDEX;
         win.data = null;
+
+        return state;
       }),
 
+    // 🔥 Clean Toggle
     toggleWindow: (windowKey, data = null) =>
       set((state) => {
         const win = state.windows[windowKey];
-        if (!win) return;
+        if (!win) return state;
 
         if (win.isOpen) {
-          // close
+          // CLOSE
           win.isOpen = false;
           win.zIndex = INITIAL_Z_INDEX;
           win.data = null;
         } else {
-          // open
+          // OPEN
           win.isOpen = true;
           win.zIndex = state.nextZIndex++;
-          win.data = data ?? win.data;
+          if (data) win.data = data;
         }
+
+        return state;
       }),
 
     focusWindow: (windowKey) =>
       set((state) => {
         const win = state.windows[windowKey];
-        if (!win) return;
+        if (!win) return state;
 
         win.zIndex = state.nextZIndex++;
+
+        return state;
       }),
   }))
 );

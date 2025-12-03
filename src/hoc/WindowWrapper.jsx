@@ -7,26 +7,27 @@ import { Draggable } from "gsap/Draggable";
 const WindowWrapper = (Component, windowKey) => {
   const Wrapped = (props) => {
     const { focusWindow, windows } = useWindowStore();
-    const { isOpen, zIndex } = windows[windowKey];
+    const win = windows[windowKey]; // get win first
+
     const ref = useRef(null);
 
-    // Run animations on open/close
+    // --- Always run hooks, even if win is undefined --- //
+
     useEffect(() => {
+      if (!win) return; // safe check inside hook
+
       const el = ref.current;
       if (!el) return;
 
-      if (isOpen) {
-        // Make visible immediately
+      if (win.isOpen) {
         el.style.display = "block";
 
-        // OPEN animation
         gsap.fromTo(
           el,
           { opacity: 0.8, scale: 0.8, y: 40 },
           { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }
         );
       } else {
-        // CLOSE animation
         gsap.to(el, {
           opacity: 0,
           scale: 0.9,
@@ -37,24 +38,33 @@ const WindowWrapper = (Component, windowKey) => {
           },
         });
       }
-    }, [isOpen]);
+    }, [win?.isOpen]); // safe dependency
 
     useGSAP(() => {
       const el = ref.current;
-      if (!el) return;
+      if (!el || !win) return;
+
       const [instance] = Draggable.create(el, {
         onPress: () => focusWindow(windowKey),
       });
+
       return () => instance.kill();
     }, []);
+
+    // --- After hooks, now conditional return is allowed --- //
+
+    if (!win) {
+      console.error(`❌ Window key "${windowKey}" NOT found in WINDOW_CONFIG`);
+      return null;
+    }
 
     return (
       <section
         id={windowKey}
         ref={ref}
         style={{
-          zIndex,
-          display: "none", // hidden by default
+          zIndex: win.zIndex,
+          display: "none",
           transformOrigin: "center",
         }}
         className="absolute"
@@ -64,9 +74,7 @@ const WindowWrapper = (Component, windowKey) => {
     );
   };
 
-  Wrapped.displayName = `WindowWrapper(${
-    Component.displayName || Component.name || "Component"
-  })`;
+  Wrapped.displayName = `WindowWrapper(${Component.displayName || Component.name || "Component"})`;
 
   return Wrapped;
 };
