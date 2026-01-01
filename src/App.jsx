@@ -5,7 +5,7 @@ import { Draggable } from 'gsap/Draggable';
 
 import { Dock, Home, Navbar, Welcome } from '#components';
 import { Contact, Finder, Image, Resume, Safari, Terminal } from '#windows';
-import Text from '#windows/text';
+import Text from '#windows/Text';
 
 gsap.registerPlugin(Draggable);
 
