@@ -377,21 +377,27 @@ body {
     }
   }
 
-  #home {
-    @apply relative z-0 max-sm:hidden;
+#home {
+  @apply relative z-0;
+}
 
-    ul {
-      li {
-        @apply absolute z-0 select-none flex items-center flex-col;
+#home ul {
+  @apply relative w-full h-full;
+}
 
-        img {
-          @apply group-hover:bg-gray-950/10 p-1 rounded-md;
-        }
+#home li {
+  @apply absolute z-0 select-none flex flex-col items-center cursor-pointer;
+  transition: transform 0.2s ease;
+}
 
-        p {
-          @apply text-sm text-white text-center px-1 rounded-md group-hover:bg-blue-500 transition-colors max-w-40;
-        }
-      }
-    }
-  }
+#home li img {
+  @apply group-hover:bg-gray-950/10 p-1 rounded-md;
+}
+
+#home li p {
+  @apply text-sm text-white text-center px-1 rounded-md
+         group-hover:bg-blue-500 transition-colors max-w-40;
+}
+
+
 }

@@ -5,19 +5,21 @@ import WindowWrapper from "#hoc/WindowWrapper";
 const Contact = () => {
   return (
     <>
-      <div id="window-header">
+      {/* Window header */}
+      <div id="window-header" className="flex items-center justify-between p-2 bg-gray-100">
         <WindowControls target="contact" />
-        <h2>Contact Me</h2>
+        <h2 className="text-lg font-semibold">Contact Me</h2>
       </div>
 
+      {/* Window body */}
       <div className="p-5 space-y-5">
         <img
-          src="https://placehold.co/80x80"
+          src="/images/husnain.png" // corrected path, removed "/80x80"
           alt="Profile"
-          className="w-20 rounded-full"
+          className="w-20 h-20 rounded-full object-cover"
         />
 
-        <h3>Let's Connect</h3>
+        <h3 className="text-xl font-medium">Let's Connect</h3>
         <p>Got an idea? A bug to squash? Or just wanna talk tech? I'm in!</p>
         <p>
           <a
@@ -25,14 +27,17 @@ const Contact = () => {
             aria-label="Send email to Husnain"
             className="text-blue-500 hover:underline"
           >
-            {/* visible text obfuscated to reduce scraping while href remains normal */}
             husnainali&#64;gmail&#46;com
           </a>
         </p>
 
-        <ul>
+        <ul className="flex flex-wrap gap-3">
           {socials.map(({ id, bg, link, icon, text }) => (
-            <li key={id} style={{ backgroundColor: bg }}>
+            <li
+              key={id}
+              className="rounded-md p-2"
+              style={{ backgroundColor: bg }}
+            >
               <a
                 href={link}
                 target="_blank"
@@ -40,8 +45,8 @@ const Contact = () => {
                 title={text}
                 className="flex items-center gap-2"
               >
-                <img src={icon} alt={text} className="size-5" />
-                <p>{text}</p>
+                <img src={icon} alt={text} className="w-5 h-5" />
+                <span className="text-white font-medium">{text}</span>
               </a>
             </li>
           ))}

@@ -3,7 +3,7 @@
 import gsap from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 
-import { Dock, Navbar, Welcome } from '#components';
+import { Dock, Home, Navbar, Welcome } from '#components';
 import { Contact, Finder, Image, Resume, Safari, Terminal } from '#windows';
 import Text from '#windows/text';
 
@@ -23,6 +23,7 @@ const App = () => {
     <Text />
     <Image />
     <Contact />
+    <Home />
    </main>
   )
 }
